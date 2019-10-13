@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <iostream>
+#include <math.h>
+
+using namespace std;
+
+double Sensor_tempt(int ADC_sen, double Tmax, double Tmin){
+  	return ADC_sen/pow(2,24)*(Tmax-Tmin)+Tmin;
+}
+
+double TCF(double T_sen, double T_ref, double Tempt_Coef){
+	return 1 + (T_sen-T_ref)*Tempt_Coef;
+}
+
+double Tempt_compensate(double k4, double k3, double k2, double k1, double k0,double Sensor_Tempt){
+	return k4* pow(Sensor_Tempt,4) +k3 * pow(Sensor_Tempt,3) + k2 * pow(Sensor_Tempt,2) + k1 * pow(Sensor_Tempt,1) + k0;
+}
+
+double Obj_tempt(double k4, double k3, double k2, double k1, double k0, double ADC,double Sensor ){
+	
+}                           
+
+int main (void){
+	double Tmax = 85;
+	double Tmin = -20;
+	int ADC_sen = 12000000;
+	cout << Sensor_tempt(ADC_sen,Tmax,Tmin) << endl;
+	
+	return 0;
+}
