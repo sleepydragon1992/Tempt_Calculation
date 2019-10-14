@@ -1,0 +1,103 @@
+#include <Wire.h>
+#include <math.h>
+//#include <iostream>
+
+//using namespace std;
+
+union {
+  long unsigned int i;
+  float f;
+}MyUnion;
+
+long unsigned int combine_hex (unsigned int H,unsigned int L){
+  long unsigned SUM = (H << 16) + L;
+
+  return SUM;
+}
+
+float floatify(long unsigned x){
+  MyUnion.i = x;
+  return MyUnion.f;
+}
+
+long unsigned int read_EEPROM (int mybyte){
+  Wire.beginTransmission(0x00);   //start a serial communication with device address 0 
+    //Serial.println(mybyte,HEX);
+    //Serial.println("******");
+    Wire.write(byte(mybyte));
+    Wire.endTransmission();
+    delay(70);
+    Wire.requestFrom(0x00,4);
+
+    delay(50);
+    for (int i = 0; i <= 2; i++){
+      reading=Wire.read();
+     // Serial.println(Wire.available());
+      Serial.println("*********");
+      Serial.println(reading,HEX);
+      if(i == 1) reading_2 = reading;
+     // Serial.println("i = 1");
+      //Serial.println(reading_2,HEX);
+      if(i == 2) reading_2 = reading_2 * pow(2,8) + reading;
+     // Serial.println("i = 2");
+      //Serial.println(reading_2,HEX);
+    }
+    Serial.println(reading_2,HEX);
+    //Wire.endTransmission();
+    Serial.println("*****************************************");
+    Serial.println("");
+    Serial.println("");
+    Serial.println("");
+    delay(50);
+}
+
+
+int reading = 0;
+long int reading_2 = 0;
+void setup() {
+ 
+  Wire.begin();
+  Serial.begin (9600);
+
+    for (int mybyte = 0x1A; mybyte <= 0x2B;mybyte++){
+    Wire.beginTransmission(0x00);   //start a serial communication with device address 0 
+    //Serial.println(mybyte,HEX);
+    //Serial.println("******");
+    Wire.write(byte(mybyte));
+    Wire.endTransmission();
+    delay(70);
+    Wire.requestFrom(0x00,4);
+
+    delay(50);
+    for (int i = 0; i <= 2; i++){
+      reading=Wire.read();
+     // Serial.println(Wire.available());
+      Serial.println("*********");
+      Serial.println(reading,HEX);
+      if(i == 1) reading_2 = reading;
+     // Serial.println("i = 1");
+      //Serial.println(reading_2,HEX);
+      if(i == 2) reading_2 = reading_2 * pow(2,8) + reading;
+     // Serial.println("i = 2");
+      //Serial.println(reading_2,HEX);
+    }
+    Serial.println(reading_2,HEX);
+    //Wire.endTransmission();
+    Serial.println("*****************************************");
+    Serial.println("");
+    Serial.println("");
+    Serial.println("");
+    delay(50);
+  }
+
+
+  delay(1000);
+}
+
+void loop() {
+
+
+  }
+
+
+  
